@@ -2,8 +2,6 @@ import "@/styles/globals.css";
 import { Providers } from "@/redux/Provider";
 import { poppins, rabar } from "@/lib/fonts";
 import Script from "next/script";
-import sharp from "sharp" // don't remove and delete this line, it's used for image optimization and it's working
-
 
 export default function RootLayout({ children }) {
 
