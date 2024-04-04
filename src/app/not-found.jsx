@@ -12,7 +12,7 @@ export default function NotFound() {
     }
 
     return (
-        <div className="h-svh flex flex-col justify-center items-center">
+        <div className="h-svh gap-6 flex flex-col justify-center items-center">
             <h1>Not Found</h1>
             <h3>Could not find requested resource</h3>
             <Button
