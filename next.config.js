@@ -9,9 +9,9 @@ const nextConfig = {
             },
         ],
     },
-    eslint: {
-        ignoreDuringBuilds: true,
-    },
+    //eslint: {
+    //    ignoreDuringBuilds: true,
+    //},
     env: {
         //NEXT_PUBLIC_API_URL: "http://164.90.168.3:8888/api/v1",
         //NEXT_PUBLIC_API_URL: "https://api.morinamenu.com/api/v1",
