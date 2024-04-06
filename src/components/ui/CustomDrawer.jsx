@@ -5,6 +5,7 @@ import {
 
 export default function CustomDrawer({ children, ...props }) {
     const { isOpen, onClose, theme, hasIndecator = true } = props;
+    console.log("theme", theme);
     return (
         <Drawer open={isOpen} onOpenChange={onClose}>
             <DrawerContent

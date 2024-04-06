@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useCallback, Fragment } from "react";
+import { useRef, useCallback, Fragment } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchAllData } from "@/lib/axiosConfig";
 import dynamic from "next/dynamic";
@@ -16,6 +16,7 @@ import Menus from "@/components/menu/menuAndCategories/menus";
 import Navbar from "@/components/layout/navbar";
 import Image from "next/image";
 import Footer from "@/components/layout/footer";
+import useFetch from "@/hooks/useFetch";
 
 const FoodsComponent = dynamic(() => import('@/components/menu/foods/foodsComponent'),
   {
@@ -42,15 +43,10 @@ function Menu({ params }) {
     dispatch(changeMenu(selectedMenu));
   }, [firstMenuLoad]);
 
-  useEffect(() => {
-    // if venue is not in redux store, fetch data from server
-    if (!currentVenue) {
-      Promise.resolve(dispatch(fetchAllData(id)));
-    }
-  }, [currentVenue]);
-
+  // if venue is not in redux store, fetch data from server
+  useFetch(currentVenue, fetchAllData, { username: id, langCode: language.language_code, pending: true });
   // disable right click on page and change status bar color and change direction based on language id
-  DisableRightClick_RTL_StatuBar({ theme, language, id });
+  DisableRightClick_RTL_StatuBar({ theme, id });
   // with scroll, change categories position based on section categories in body
   CategoriesOnScroll({ debounceRef, categoriesRef });
 

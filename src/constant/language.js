@@ -11,3 +11,5 @@ export const MV_LanguageButtonColor = { // dont remove this, this is for languag
 }
 
 export const rtlLang = ["ku", "ar", "ckb", "fa"]
+
+export const MainLanguages = ["en", "ar", "ku"]

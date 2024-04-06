@@ -1,9 +1,8 @@
 import { Link } from "react-scroll";
 import { useSelector } from "react-redux";
 import { BlurHashForCategories } from "../../Vedio_Image/BlurHash";
-import { checkSourceContent } from "@/lib/checkSourceContent";
 import { getCategoryName } from "@/lib/itemLanguageHelpers";
-import { cn, gotoByScreen } from "@/lib/utils";
+import { cn, gotoByScreen, checkSourceContent } from "@/lib/utils";
 
 const Categories = (props) => {
 
@@ -59,7 +58,7 @@ const Categories = (props) => {
         ) : null;
       })}
 
-    </section >
+    </section>
   );
 };
 

@@ -1,14 +1,13 @@
-
-import { config } from "@/lib/axiosConfig";
 import { Fragment } from "react";
 
 export async function generateMetadata({ params }) {
     const { id } = params;
-    //const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/venues/details/${id}`)
-    //const venue = await res.json().then((data) => data.venue);
+    //const res = await config.get(`/venues/details/${id}`);
+    //const venue = await res.data?.venue;
     try {
-        const res = await config.get(`/venues/details/${id}`);
-        const venue = await res.data?.venue;
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/venues/details/${id}`)
+        const venue = await res.json().then(data => data.venue);
+
         return {
             title: venue?.name,
             description: "View " + venue?.name + " Menu.",

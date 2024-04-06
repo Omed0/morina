@@ -10,7 +10,6 @@ const store = configureStore({
     },
     devTools: false,
     middleware: [thunk],
-
 });
 
 

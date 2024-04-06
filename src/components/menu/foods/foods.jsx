@@ -3,12 +3,11 @@ import { useSelector } from "react-redux";
 
 import { getCategoryName, getDescription, getItemName, getItemTypeName, getPriceOnSelectionByLanguage } from "@/lib/itemLanguageHelpers";
 import { BlurHashForList } from "@/components/Vedio_Image/BlurHash";
-import { checkSourceContent } from "@/lib/checkSourceContent";
-import { formatPrice } from "@/lib/formatPrice";
-import { cn } from "@/lib/utils";
+import { cn, checkSourceContent, formatPrice } from "@/lib/utils";
 
 import { IoIosList } from "react-icons/io";
 import { IoGridOutline } from "react-icons/io5";
+import Sticker from "./Sticker";
 
 
 const Foods = ({ category, firstRow, itemSelection, language, isList, setIsList, currencyType }) => {
@@ -80,91 +79,103 @@ const Foods = ({ category, firstRow, itemSelection, language, isList, setIsList,
               })}
             >
               { //show item have image   
-                itemFilteredBaseImage.itemWithImage.map((item, index) => (
-                  <div
-                    key={index}
-                    id="card_img"
-                    title={"item " + getItemName(item, language.id)}
-                    about="item card, show item details"
-                    onClick={() => itemSelection(item)}
-                    style={{ backgroundColor: theme?.MV_BGCardColor }}
-                    className={cn("flex flex-col rounded-md overflow-hidden shadow shadow-black/25")}
-                  >
-                    <div className={cn("w-full flex h-full", {
-                      "flex-row": !isList,
-                      "flex-col-reverse": isList
-                    })}>
-                      <div className={cn("relative max-h-full w-full flex flex-col justify-between", {
-                        "p-1": !isList,
-                        "px-1": isList
+                itemFilteredBaseImage.itemWithImage.map((item, index) => {
+                  return (
+                    <div
+                      key={index}
+                      id="card_img"
+                      title={"item " + getItemName(item, language.id)}
+                      about="item card, show item details"
+                      onClick={() => itemSelection(item)}
+                      style={{ backgroundColor: theme?.MV_BGCardColor }}
+                      className={cn("relative flex flex-col rounded-md overflow-hidden shadow shadow-black/25")}
+                    >
+                      {item.Stickers.length > 0 && item.Stickers.map((sticker) => {
+                        const showOnCardIcon = sticker.ItemSticker.showInMainView
+                        if (!showOnCardIcon) return null;
+                        return (
+                          <Sticker
+                            key={sticker.id}
+                            className="bg-white absolute start-0 top-0 z-10"
+                            src={sticker.url}
+                          />
+                        );
+                      })}
+                      <div className={cn("w-full flex h-full", {
+                        "flex-row": !isList,
+                        "flex-col-reverse": isList
                       })}>
-                        <h3
-                          about="item name"
-                          className={cn("sm:text-lg md:text-xl", {
-                            "line-clamp-1 text-sm": isList,
-                            "line-clamp-2 text-base": !isList
-                          })}
-                          style={{ color: theme?.MV_ItemTextColor }}
-                        >
-                          {getItemName(item, language.id)}
-                        </h3>
-                        {!isShowPriceOptionInCard && (isList && item.price > 0 && (
-                          <hr className="-mx-2" style={{ borderTop: `0.6px solid ${theme?.MV_BorderLineColor}` }} />
-                        ))}
-                        {!isList && (
-                          <h4
+                        <div className={cn("relative max-h-full w-full flex flex-col justify-between", {
+                          "p-1": !isList,
+                          "px-1": isList
+                        })}>
+                          <h3
+                            about="item name"
+                            className={cn("sm:text-lg md:text-xl", {
+                              "line-clamp-1 text-sm": isList,
+                              "line-clamp-2 text-base": !isList
+                            })}
                             style={{ color: theme?.MV_ItemTextColor }}
-                            className="min-w-0 text-wrap mt-2 text-sm line-clamp-3 brightness-75"
                           >
-                            {getDescription(item, language.id)}
-                          </h4>
-                        )}
-                        {!isShowPriceOptionInCard && (
-                          <Fragment>
-                            {item.ItemTypes.length === 0 && item.price > 0 ? (
-                              <h4
-                                about="item price"
-                                style={{ color: theme?.MV_PriceColor }}
-                                className={cn("sm:text-base lg:text-lg mt-auto", {
-                                  "text-sm": !isList,
-                                  "text-xs py-[1px] pt-[3px] px-[1px]": isList
-                                })}
-                              >
-                                <span>{formatPrice(item.price, currencyType)}</span>
-                              </h4>
-                            ) : (
-                              <h4
-                                about="item price on selections"
-                                className="text-xs sm:text-base md:text-lg lg:text-xl"
-                                style={{ color: theme?.MV_PriceColor }}
-                              >
-                                {getPriceOnSelectionByLanguage(language?.id)}
-                              </h4>
-                            )}
-                          </Fragment>
-                        )}
-                      </div>
-                      {/* image item */}
-                      <div className={cn("relative w-full h-full aspect-[3/2] overflow-hidden", {
-                        "max-w-[46%]": !isList,
-                        "w-full rounded-md": isList
-                      })}>
-                        {
-                          checkSourceContent(item?.image) && (
-                            <BlurHashForList
-                              isList={isList}
-                              hash={item?.blurhash}
-                              low={item?.image_low}
-                              medium={item?.image_medium}
-                              name={getItemName(item, language.id)}
-                            />
-                          )
-                        }
+                            {getItemName(item, language.id)}
+                          </h3>
+                          {!isShowPriceOptionInCard && (isList && item.price > 0 && (
+                            <hr className="-mx-2" style={{ borderTop: `0.6px solid ${theme?.MV_BorderLineColor}` }} />
+                          ))}
+                          {!isList && (
+                            <h4
+                              style={{ color: theme?.MV_ItemTextColor }}
+                              className="min-w-0 text-wrap mt-2 text-sm line-clamp-3 brightness-75"
+                            >
+                              {getDescription(item, language.id)}
+                            </h4>
+                          )}
+                          {!isShowPriceOptionInCard && (
+                            <Fragment>
+                              {item.ItemTypes.length === 0 && item.price > 0 ? (
+                                <h4
+                                  about="item price"
+                                  style={{ color: theme?.MV_PriceColor }}
+                                  className={cn("sm:text-base lg:text-lg mt-auto", {
+                                    "text-sm": !isList,
+                                    "text-xs py-[1px] pt-[3px] px-[1px]": isList
+                                  })}
+                                >
+                                  <span>{formatPrice(item.price, currencyType)}</span>
+                                </h4>
+                              ) : (
+                                <h4
+                                  about="item price on selections"
+                                  className="text-xs sm:text-base md:text-lg lg:text-xl"
+                                  style={{ color: theme?.MV_PriceColor }}
+                                >
+                                  {getPriceOnSelectionByLanguage(language?.id)}
+                                </h4>
+                              )}
+                            </Fragment>
+                          )}
+                        </div>
+                        {/* image item */}
+                        <div className={cn("relative w-full h-full aspect-[3/2] overflow-hidden", {
+                          "max-w-[46%]": !isList,
+                          "w-full rounded-md": isList
+                        })}>
+                          {
+                            checkSourceContent(item?.image) && (
+                              <BlurHashForList
+                                isList={isList}
+                                hash={item?.blurhash}
+                                low={item?.image_low}
+                                medium={item?.image_medium}
+                                name={getItemName(item, language.id)}
+                              />
+                            )
+                          }
+                        </div>
                       </div>
                     </div>
-                  </div>
-                )
-                )}
+                  )
+                })}
             </div>
             {/* card with no image have */}
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 w-full max-w-full gap-2">

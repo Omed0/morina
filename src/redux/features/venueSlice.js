@@ -29,12 +29,13 @@ export const VenueData = createSlice({
         setSelectedItem: (state, action) => {
             state.selectedItem = action.payload
         },
+        setLanguageChangeLoading: (state, action) => {
+            state.loading = action.payload
+        }
     },
     extraReducers(builder) {
+        //i dont use loading in here because i dont need to show loading spinner when langauge change i set it by manually
         builder
-            .addCase(fetchAllData.pending, (state) => {
-                state.loading = true;
-            })
             .addCase(fetchAllData.fulfilled, (state, action) => {
                 state.loading = false;
                 state.currentVenue = action.payload?.venue;
@@ -65,5 +66,7 @@ export const VenueData = createSlice({
     }
 })
 
-export const { changeMenu, setSelectedItem } = VenueData.actions
+export const { changeMenu, setSelectedItem, setLanguageChangeLoading } = VenueData.actions
+
+
 export default VenueData.reducer

@@ -1,7 +1,12 @@
+import { fetchAllData } from "@/lib/axiosConfig";
+import { useDispatch } from "react-redux";
+
 const Buttons = (props) => {
 
-    const language = props?.venue?.Languages
-    const theme = props?.venue?.Theme;
+    const dispatch = useDispatch();
+    const username = props.venue?.username;
+    const language = props.venue?.Languages
+    const theme = props.venue.Theme;
     const orderLang = []
 
     // order language by id and push kurdish and english to the first index of array and then push the rest of languages
@@ -19,6 +24,7 @@ const Buttons = (props) => {
 
     // change language
     const handleChangelanguage = (lang) => {
+        dispatch(fetchAllData({ username, langCode: lang["language_code"], pending: false }))
         props.changeLanguage(lang)
         props.drawerOpen(true)
     }
@@ -75,7 +81,7 @@ const Buttons = (props) => {
                         );
                     })}
                 </div>
-            </div >
+            </div>
 
 
             <style jsx>{`

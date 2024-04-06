@@ -14,10 +14,10 @@ const Menus = (props) => {
 
   return (
     <div
-      about="Menus Section"
       aria-description="Menus Section of the page that shows all menus of the venue"
       className="flex items-center w-full overflow-x-auto py-1 px-2"
       style={{ backgroundColor: theme?.MV_MenuBackgroundColor }}
+      about="Menus Section"
     >
       <ul className={"list-none flex gap-2"}>
         {allMenus && allMenus?.map((menu, index) => {

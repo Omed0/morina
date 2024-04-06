@@ -1,9 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 
 import { getDescription, getItemName, getItemTypeName, getTypesNameByDifferentLangId } from "@/lib/itemLanguageHelpers";
-import { checkSourceContent } from "@/lib/checkSourceContent";
-import { formatPrice } from "@/lib/formatPrice";
-import { cn } from '@/lib/utils';
+import { cn, checkSourceContent, formatPrice } from '@/lib/utils';
 import Sticker from "./Sticker";
 
 
@@ -12,7 +10,7 @@ const FoodDrawer = ({ item, language, theme, currencyType }) => {
     if (!item) return null;
     const videoRef = useRef(null);
     const [placeholder, setPlaceholder] = useState(false);
-    const hasType = item.ItemTypes?.length > 0 || false;
+    const hasType = item.ItemTypes?.length > 0;
     const hasImage = checkSourceContent(item?.image);
 
     const handleShowVideo = () => {
@@ -89,7 +87,7 @@ const FoodDrawer = ({ item, language, theme, currencyType }) => {
             )}
             <div
                 style={{
-                    backgroundColor: !hasImage && !hasType ? theme.IV_ItemPriceOptionHighlight : "transparent",
+                    backgroundColor: !hasImage && !hasType ? theme.IV_ItemPriceOptionHighlight : "inherit",
                     color: !hasImage && !hasType ? theme.IV_ItemPriceOptionTextColor : theme.IV_ItemTextColor
                 }}
                 className={cn("flex w-full justify-between items-center p-2 pb-1 sm:text-lg", {
@@ -133,7 +131,7 @@ const FoodDrawer = ({ item, language, theme, currencyType }) => {
                 })}
             >
                 <div className="flex items-center gap-2">
-                    {item?.Stickers && (
+                    {item?.Stickers.length > 0 && (
                         item.Stickers.map((sticker, i) => (
                             <Sticker
                                 style={{ backgroundColor: theme?.IV_ItemTextColor }}

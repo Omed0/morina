@@ -1,29 +1,35 @@
 import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setLanguage } from "@/redux/features/lang";
 import { cn } from "@/lib/utils";
 import { LanguageIcon } from "../socials/Icons";
+import { fetchAllData } from "@/lib/axiosConfig";
+import { usePathname } from "next/navigation";
+import { setLanguage } from "@/redux/features/lang";
 
 function Language({ language, theme }) {
+
+    const pathname = usePathname();
     const dispatch = useDispatch();
+
     const refLang = useRef(null);
     const refDropdown = useRef(null);
     const [isOpened, setIsOpened] = useState(false);
+    const username = pathname.split("/").filter((param) => param !== "")[0];
+
     const { language: Lang } = useSelector((state) => state.language);
 
-    useEffect(() => {
-        const haveActiveLanguage = language?.find((lang) => lang["id"] == Lang?.id);
-        if (haveActiveLanguage) {
-            setLanguage(haveActiveLanguage);
-        } else {
-            setLanguage(language[0]);
+    const handleClickOutside = (event) => {
+        if (refDropdown.current && !refDropdown.current.contains(event.target) && !refLang.current.contains(event.target)) {
+            setIsOpened(false)
         }
+    }
 
-        const handleClickOutside = (event) => {
-            if (refDropdown.current && !refDropdown.current.contains(event.target) && !refLang.current.contains(event.target)) {
-                setIsOpened(false)
-            }
-        }
+    const handleGetDataByLang = async (lang) => {
+        await dispatch(fetchAllData({ username, langCode: lang["language_code"], pending: false }))
+        dispatch(setLanguage(lang));
+    };
+
+    useEffect(() => {
         document.addEventListener('mousedown', handleClickOutside);
 
         return () => {
@@ -52,7 +58,7 @@ function Language({ language, theme }) {
                 {language.length < 1 ?
                     <li
                         className="text-xl hover:cursor-pointer"
-                        onClick={() => dispatch(setLanguage(Lang))}
+                        onClick={() => handleGetDataByLang(Lang)}
                         role="menuitem"
                     >
                         {Lang?.name}
@@ -60,13 +66,13 @@ function Language({ language, theme }) {
                     :
                     language.map((lang, index) => (
                         <li
-                            className={cn("relative text-lg px-3 py-1 text-gray-500 hover:bg-gray-50 hover:text-gray-700 border-b-[1px] last:border-b-0 border-zinc-300 hover:cursor-pointer", {
-                                "text-zinc-600": lang["id"] === Lang?.id
+                            className={cn("relative text-lg px-3 py-1 text-gray-500/80 hover:bg-gray-50 hover:text-gray-700 border-b-[1px] last:border-b-0 border-zinc-300 hover:cursor-pointer", {
+                                "text-zinc-700": lang["id"] === Lang?.id
                             })}
                             key={index}
                             title={lang["name"]?.toUpperCase()}
                             onClick={() => {
-                                dispatch(setLanguage(lang));
+                                handleGetDataByLang(lang);
                                 setIsOpened(false);
                             }}
                             role="menuitem"

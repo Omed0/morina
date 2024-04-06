@@ -1,8 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { getDescription, getItemName, getItemTypeName, getTypesNameByDifferentLangId } from "@/lib/itemLanguageHelpers";
-import { checkSourceContent } from "@/lib/checkSourceContent";
-import { formatPrice } from "@/lib/formatPrice";
-import { cn } from '@/lib/utils';
+import { formatPrice, cn, checkSourceContent } from '@/lib/utils';
 import Sticker from "./Sticker";
 
 
@@ -124,7 +122,7 @@ const FoodModal = ({ item, language, theme, currencyType }) => {
                 })}
             >
                 <div className="flex items-center gap-2">
-                    {item?.Stickers && (
+                    {item?.Stickers.length > 0 && (
                         item.Stickers.map((sticker, i) => (
                             <Sticker
                                 style={{ backgroundColor: theme?.IV_ItemTextColor }}

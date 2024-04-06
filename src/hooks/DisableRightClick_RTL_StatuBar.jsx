@@ -3,17 +3,17 @@
 import { useEffect, useLayoutEffect } from "react";
 import { usePathname } from "next/navigation";
 import { setLanguage } from "@/redux/features/lang";
-import { rtlLang, staticLanguage } from "constant/language";
+import { MainLanguages, rtlLang, staticLanguage } from "constant/language";
 import { useSelector } from "react-redux";
 
 export default function DisableRightClick_RTL_StatuBar({ theme, id }) {
 
     const pathname = usePathname();
-    const { language } = useSelector((state) => state.language);
-
     const isFeedback = pathname.includes("/feedback");
+
+    const { language } = useSelector((state) => state.language);
     const isRtl = rtlLang.find((lang) => lang === language?.language_code);
-    const isMainLanguages = ["en", "ar", "ku"].find((lang) => lang === language?.language_code);
+    const isMainLanguages = MainLanguages.find((lang) => lang === language?.language_code);
 
     const checkPage = (pathname) => { // check page path and return theme color 
         switch (pathname) {
@@ -64,7 +64,7 @@ export default function DisableRightClick_RTL_StatuBar({ theme, id }) {
             document.body.classList.remove("rtl");
         }
 
-    }, [language?.id]);
+    }, [language?.language_code]);
 
     return null;
 }

@@ -24,7 +24,7 @@ const FoodsComponent = () => {
     useSelector((state) => state.menu);
 
   const { language } = useSelector((state) => state.language);
-  const isModal = theme.ItemOpeningStyle ? theme.ItemOpeningStyle === "POPUP" ? true : false : true;
+  const isModal = theme.ItemOpeningStyle === "POPUP"
 
   const handleChangeLayout = useCallback(() => {
     setIsList((prev) => !prev);
