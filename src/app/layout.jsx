@@ -57,7 +57,7 @@ export const metadata = {
     siteName: "Morina Menu",
     images: [
       {
-        url: "/morina.svg",
+        url: "/favicon.ico",
         width: 1200,
         height: 1200,
         alt: "Morina Logo",
