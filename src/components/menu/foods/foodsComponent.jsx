@@ -1,8 +1,9 @@
 import { useCallback, useState, Fragment } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getBannersByLangId } from "@/lib/utils";
-import { setSelectedItem } from "@/redux/features/venueSlice";
+import { setSearchModal, setSelectedItem } from "@/redux/features/venueSlice";
 
+import SearchItem from "../search/SearchItem";
 import Banner from "@/components/menu/banners/banner";
 import useScrollY from "@/hooks/useScrollY";
 import ArrowTopScrol from "@/components/ui/ArrowTopScrol";
@@ -20,7 +21,7 @@ const FoodsComponent = () => {
   const [isList, setIsList] = useState(true);
   const [isSelectedItem, setIsSelectedItem] = useState(false);
 
-  const { currentVenue, theme, menuBanners, firstMenuLoad: { Categories }, selectedItem } =
+  const { currentVenue, theme, menuBanners, firstMenuLoad: { Categories }, selectedItem, searchItem } =
     useSelector((state) => state.menu);
 
   const { language } = useSelector((state) => state.language);
@@ -38,6 +39,16 @@ const FoodsComponent = () => {
 
   return (
     <Fragment>{/* banner */}
+      <CustomDialog
+        isOpen={searchItem}
+        onClose={() => dispatch(setSearchModal())}
+        classClose="top-1"
+        className="w-[94%] max-h-96"
+        theme={[theme?.IV_ItemBackgroundColor, theme?.IV_ItemTextColor]}
+      >
+        <SearchItem selectItem={itemSelection} />
+      </CustomDialog>
+
       {getBannersByLangId(menuBanners, language.id, true) && (
         <div dir="ltr" className="w-full flex justify-center items-center p-3 py-6">
           <Banner banners={menuBanners} langId={language?.id} />
@@ -84,6 +95,7 @@ const FoodsComponent = () => {
       </CustomDrawer>}
 
       {isModal && <CustomDialog
+        classClose="right-2"
         isOpen={isSelectedItem}
         onClose={setIsSelectedItem}
         theme={[theme?.IV_ItemBackgroundColor, theme?.IV_ItemTextColor]}

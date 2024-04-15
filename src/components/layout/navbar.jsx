@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useRouter, useParams } from "next/navigation";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-scroll";
 import { cn, gotoByScreen, checkSourceContent } from "@/lib/utils";
 import Language from "@/components/language/languages.jsx";
@@ -8,10 +8,13 @@ import { getCategoryName } from "@/lib/itemLanguageHelpers";
 import { Feedback, Grid } from "../socials/Icons";
 import FoodDrawer from "../ui/CustomDrawer";
 import { BlurHashForCategories } from "../Vedio_Image/BlurHash";
+import { Search } from "lucide-react";
+import { setSearchModal } from "@/redux/features/venueSlice";
 
 
 const Navbar = ({ language, className }) => {
     const { id } = useParams();
+    const dispatch = useDispatch();
     const router = useRouter();
 
     const [expanded, setExpanded] = useState(false); // for navbar modal
@@ -59,10 +62,17 @@ const Navbar = ({ language, className }) => {
                 </div>
 
                 <div className="flex items-center justify-center gap-3 pr-1">
+                    <div
+                        className="cursor-pointer"
+                        onClick={() => dispatch(setSearchModal())}
+                        style={{ color: theme?.MV_LanguageButtonColor }}
+                    >
+                        <Search className="size-6" />
+                    </div>
                     <span className="hover:cursor-pointer" onClick={gotoFeedback}>
                         <Feedback className="size-6" color={theme?.MV_LanguageButtonColor} />
                     </span>
-                    <Language language={listLanguage} theme={theme} />
+                    {/*<Language language={listLanguage} theme={theme} />*/}
                     <button
                         about="navbar modal"
                         title="click to open navbar modal and show all categories in menu selected"
@@ -75,10 +85,10 @@ const Navbar = ({ language, className }) => {
                         <Grid className="size-7" color={theme?.MV_LanguageButtonColor} />
                     </button>
                 </div>
-            </nav>
+            </nav >
 
             {/* ----- navbar modal ---*/}
-            <FoodDrawer
+            <FoodDrawer FoodDrawer
                 isOpen={expanded}
                 onClose={setExpanded}
                 theme={[theme?.MV_category_bottom_sheet_background, theme?.MV_category_bottom_sheet_text_color]}

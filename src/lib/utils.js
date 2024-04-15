@@ -87,3 +87,20 @@ export function formatPrice(value, currencyType) {
       return formattedValue; // Return as is if the currency type is not recognized
   }
 }
+
+export function placeholderSearchItem(langcode) {
+  switch (langcode) {
+    case "en":
+      return "Type a command or search...";
+    case "ar":
+      return "اكتب أمرًا أو ابحث ...";
+    case "fa":
+      return "یک دستور یا جستجو را تایپ کنید ...";
+    case "tr":
+      return "Bir komut yazın veya arayın ...";
+    case "ku":
+      return "گەڕان بکە بۆ دڵخوازەکەت ...";
+    default:
+      return "Type a command or search...";
+  }
+}

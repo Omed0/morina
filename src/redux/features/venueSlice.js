@@ -31,6 +31,9 @@ export const VenueData = createSlice({
         },
         setLanguageChangeLoading: (state, action) => {
             state.loading = action.payload
+        },
+        setSearchModal: (state) => {
+            state.searchItem = !state.searchItem
         }
     },
     extraReducers(builder) {
@@ -66,7 +69,7 @@ export const VenueData = createSlice({
     }
 })
 
-export const { changeMenu, setSelectedItem, setLanguageChangeLoading } = VenueData.actions
+export const { changeMenu, setSelectedItem, setLanguageChangeLoading, setSearchModal } = VenueData.actions
 
 
 export default VenueData.reducer

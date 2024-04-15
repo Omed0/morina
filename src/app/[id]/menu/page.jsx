@@ -18,6 +18,7 @@ import Image from "next/image";
 import Footer from "@/components/layout/footer";
 import useFetch from "@/hooks/useFetch";
 
+
 const FoodsComponent = dynamic(() => import('@/components/menu/foods/foodsComponent'),
   {
     ssr: false,
@@ -96,7 +97,6 @@ function Menu({ params }) {
             language={language}
           />
         </header>
-
         <FoodsComponent key={id} />
 
         <footer className="w-full flex justify-center pb-4">

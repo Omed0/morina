@@ -2,8 +2,6 @@ import { Fragment } from "react";
 
 export async function generateMetadata({ params }) {
     const { id } = params;
-    //const res = await config.get(`/venues/details/${id}`);
-    //const venue = await res.data?.venue;
     try {
         const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/venues/details/${id}`)
         const venue = await res.json().then(data => data.venue);
